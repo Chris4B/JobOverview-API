@@ -1,4 +1,7 @@
 
+using JobOverview.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace JobOverview
 {
    public class Program
@@ -8,6 +11,11 @@ namespace JobOverview
          var builder = WebApplication.CreateBuilder(args);
 
          // Add services to the container.
+
+         var configuration = builder.Configuration;
+
+         builder.Services.AddDbContext<JobOverviewContext>(options =>
+           options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
          builder.Services.AddControllers();
          // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

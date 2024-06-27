@@ -13,7 +13,7 @@ namespace JobOverview.Model
       public string Nom { get; set; } = string.Empty ;
    }
 
-   public class Filière
+   public class Filiere
    {
       public int CodeFilière { get; set; }
       public string Nom { get; set; } = string.Empty;
