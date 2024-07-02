@@ -24,6 +24,7 @@ namespace JobOverview.Data
             entity.HasKey(entity => entity.CodeModule).HasName("PrimaryKey_CodeModule");
             entity.Property(entity => entity.CodeModule).HasMaxLength(20).IsUnicode(false);
             entity.Property(entity => entity.Nom).HasMaxLength(60);
+            
          });
 
          modelBuilder.Entity<Logiciel>(entity =>
