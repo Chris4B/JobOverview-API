@@ -10,7 +10,7 @@ namespace JobOverview.Model
       public string Nom {  get; set; } = "";
 
       // ajout de la propriété qui servira de clé étrangère
-      public string CodeFilière { get; set; } = "";
+      public string CodeFiliere { get; set; } = "";
 
       
    }
@@ -24,11 +24,13 @@ namespace JobOverview.Model
       public string? CodeLogiciel { get; set; }
 
       public string? CodeLogicielParent { get; set; }
+
+ 
    }
 
    public class Filiere
    {
-      public string CodeFilière { get; set; } = "";
+      public string CodeFiliere { get; set; } = "";
       public string Nom { get; set; } = string.Empty;
    }
 
@@ -44,7 +46,7 @@ namespace JobOverview.Model
    public class Version
    {
       public float NumeroVersion { get; set; }
-      public short Millesime { get; set; }
+      public int Millesime { get; set; }
       public DateTime DateOuverture { get; set; }
       public DateTime DateSortiePrevue { get; set; }
       public DateTime? DateSortieReelle { get; set; }

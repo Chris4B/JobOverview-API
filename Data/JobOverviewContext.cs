@@ -30,8 +30,14 @@ namespace JobOverview.Data
             entity.Property(entity => entity.CodeModuleParent).HasMaxLength(20).IsUnicode(false);
             entity.Property(entity => entity.CodeLogiciel).HasMaxLength(20).IsUnicode(false); 
 
-            //entity.HasOne<Logiciel>().WithMany().HasForeignKey(d => d.CodeModule).OnDelete(DeleteBehavior.NoAction);
-            
+            entity.HasOne<Logiciel>().WithMany().HasForeignKey(d => d.CodeLogiciel).OnDelete(DeleteBehavior.NoAction);
+
+            entity.HasOne<Module>()
+            .WithMany()
+            .HasForeignKey(d => new { d.CodeModuleParent, d.CodeLogicielParent })
+            .HasPrincipalKey(p => new { p.CodeModule, p.CodeLogiciel })
+            .OnDelete(DeleteBehavior.NoAction);
+
          });
 
          modelBuilder.Entity<Logiciel>(entity =>
@@ -40,17 +46,18 @@ namespace JobOverview.Data
             entity.HasKey(entity => entity.CodeLogiciel).HasName("PrimaryKey_CodeLogiciel");
             entity.Property(entity => entity.CodeLogiciel).HasMaxLength(20).IsUnicode(false);
             entity.Property(entity => entity.Nom).HasMaxLength(60);
-            entity.Property(entity => entity.CodeFilière).HasMaxLength(20).IsUnicode(false); 
+            entity.Property(entity => entity.CodeFiliere).HasMaxLength(20).IsUnicode(false); 
 
-            entity.HasOne<Filiere>().WithMany().HasForeignKey(d => d.CodeFilière).OnDelete(DeleteBehavior.NoAction);
+            entity.HasOne<Filiere>().WithMany().HasForeignKey(d => d.CodeFiliere).OnDelete(DeleteBehavior.NoAction);
+            
 
          });
 
          modelBuilder.Entity<Filiere>(entity =>
          {
             entity.ToTable("Filières");
-            entity.HasKey(entity => entity.CodeFilière).HasName("PrimaryKey_CodeFiliere");
-            entity.Property(entity => entity.CodeFilière).HasMaxLength(20);
+            entity.HasKey(entity => entity.CodeFiliere).HasName("PrimaryKey_CodeFiliere");
+            entity.Property(entity => entity.CodeFiliere).HasMaxLength(20).IsUnicode(false);
             entity.Property(entity => entity.Nom).HasMaxLength(60);
             
 
@@ -77,11 +84,13 @@ namespace JobOverview.Data
             //entity.HasKey(entity => new { entity.CodeLogiciel, entity.NumeroVersion });
             entity.HasKey(entity => entity.NumeroVersion).HasName("PrimaryKey_NumeroVersion");
 
-            entity.Property(entity => entity.NumeroVersion).HasColumnType("real");
-            entity.Property(entity => entity.Millesime).HasColumnType("smallint");
-            entity.Property(entity => entity.DateOuverture).HasColumnType("datetime");
-            entity.Property(entity => entity.DateSortiePrevue).HasColumnType("datetime");
-            entity.Property(entity => entity.DateSortieReelle).HasColumnType("datetime");
+            entity.Property(entity => entity.NumeroVersion);
+            entity.Property(entity => entity.Millesime);
+            entity.Property(entity => entity.DateOuverture);
+            entity.Property(entity => entity.DateSortiePrevue);
+            entity.Property(entity => entity.DateSortieReelle);
+
+            entity.HasOne<Logiciel>().WithMany().HasForeignKey(d => d.CodeLogiciel);
          });
       }
 
