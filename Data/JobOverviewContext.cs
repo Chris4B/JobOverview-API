@@ -92,6 +92,8 @@ namespace JobOverview.Data
 
             entity.HasOne<Logiciel>().WithMany().HasForeignKey(d => d.CodeLogiciel);
          });
+
+         JeuDeDonnees.Creer(modelBuilder);
       }
 
    }

@@ -1,5 +1,6 @@
 
 using JobOverview.Data;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobOverview
@@ -16,6 +17,8 @@ namespace JobOverview
 
          builder.Services.AddDbContext<JobOverviewContext>(options =>
            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+         
 
          builder.Services.AddControllers();
          // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
