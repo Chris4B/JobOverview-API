@@ -1,5 +1,6 @@
 
 using JobOverview.Data;
+using JobOverview.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,12 @@ namespace JobOverview
 
          builder.Services.AddDbContext<JobOverviewContext>(options =>
            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+         // Ajoute le service metier Logicel 
+         builder.Services.AddScoped<IServiceLogiciels, ServiceLogiciel>();
+
+         // Ajoute le service metier Module
+         builder.Services.AddScoped<IServiceModule, ServiceModule>();
 
          
 
