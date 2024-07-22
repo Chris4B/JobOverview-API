@@ -25,6 +25,9 @@ namespace JobOverview
          // Ajoute le service metier Module
          builder.Services.AddScoped<IServiceModule, ServiceModule>();
 
+         //Ajoute le service Filière
+         builder.Services.AddScoped<IServiceFiliere, ServiceFiliere>();
+
          
 
          builder.Services.AddControllers();

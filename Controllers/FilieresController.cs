@@ -1,122 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using JobOverview.Data;
 using JobOverview.Model;
+using JobOverview.Services;
 
 namespace JobOverview.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FilieresController : ControllerBase
-    {
-        private readonly JobOverviewContext _context;
+   [ApiController]
+   [Route("api/[controller]")]
+   public class FilieresController : ControllerBase
+   {
+      private IServiceFiliere _serviceFiliere;
 
-        public FilieresController(JobOverviewContext context)
-        {
-            _context = context;
-        }
+      public FilieresController(IServiceFiliere service)
+      {
+         _serviceFiliere = service;
+      }
 
-        // GET: api/Filieres
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Filiere>>> GetFiliere()
-        {
-            return await _context.Filiere.ToListAsync();
-        }
+      //Get: api/filiere
+      [HttpGet]
+      public async  Task<ActionResult<IEnumerable<Filiere>>> GetFiliere()
+      {
+         var Filieres = await _serviceFiliere.ObtenirFiliere();
 
-        // GET: api/Filieres/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Filiere>> GetFiliere(string id)
-        {
-            var filiere = await _context.Filiere.FindAsync(id);
+         return Ok(Filieres);
+      }
 
-            if (filiere == null)
-            {
-                return NotFound();
-            }
 
-            return filiere;
-        }
+      //Get: api/filiere/x
+      [HttpGet("{id}")]
+      public async Task<ActionResult<Filiere>> GetFiliereById(int id)
+      {
+         var Filiere = await _serviceFiliere.ObtenirFiliereById(id);
 
-        // PUT: api/Filieres/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFiliere(string id, Filiere filiere)
-        {
-            if (id != filiere.CodeFiliere)
-            {
-                return BadRequest();
-            }
+         return Ok(Filiere);
+      }
 
-            _context.Entry(filiere).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FiliereExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Filieres
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Filiere>> PostFiliere(Filiere filiere)
-        {
-            _context.Filiere.Add(filiere);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (FiliereExists(filiere.CodeFiliere))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetFiliere", new { id = filiere.CodeFiliere }, filiere);
-        }
-
-        // DELETE: api/Filieres/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFiliere(string id)
-        {
-            var filiere = await _context.Filiere.FindAsync(id);
-            if (filiere == null)
-            {
-                return NotFound();
-            }
-
-            _context.Filiere.Remove(filiere);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool FiliereExists(string id)
-        {
-            return _context.Filiere.Any(e => e.CodeFiliere == id);
-        }
-    }
+   }
 }
