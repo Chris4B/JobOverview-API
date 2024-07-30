@@ -28,6 +28,9 @@ namespace JobOverview
          //Ajoute le service Filière
          builder.Services.AddScoped<IServiceFiliere, ServiceFiliere>();
 
+         // Ajoute le service Realease
+         builder.Services.AddScoped<IServiceRelease, ServiceRealease>();
+
          
 
          builder.Services.AddControllers();
