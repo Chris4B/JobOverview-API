@@ -12,6 +12,8 @@ namespace JobOverview.Model
       // ajout de la propriété qui servira de clé étrangère
       public string CodeFiliere { get; set; } = "";
 
+      public virtual List<Module> Modules { get; set; } = new();
+
       
    }
 
@@ -25,7 +27,8 @@ namespace JobOverview.Model
 
       public string? CodeLogicielParent { get; set; }
 
- 
+      public virtual List<Module> SousModules { get; } = new();
+
    }
 
    public class Filiere
