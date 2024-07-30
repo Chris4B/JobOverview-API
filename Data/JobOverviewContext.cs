@@ -30,10 +30,10 @@ namespace JobOverview.Data
             entity.Property(entity => entity.CodeModuleParent).HasMaxLength(20).IsUnicode(false);
             entity.Property(entity => entity.CodeLogiciel).HasMaxLength(20).IsUnicode(false); 
 
-            entity.HasOne<Logiciel>().WithMany().HasForeignKey(d => d.CodeLogiciel).OnDelete(DeleteBehavior.NoAction);
+            entity.HasOne<Logiciel>().WithMany(r => r.Modules).HasForeignKey(d => d.CodeLogiciel).OnDelete(DeleteBehavior.NoAction);
 
             entity.HasOne<Module>()
-            .WithMany()
+            .WithMany(m => m.SousModules)
             .HasForeignKey(d => new { d.CodeModuleParent, d.CodeLogicielParent })
             .HasPrincipalKey(p => new { p.CodeModule, p.CodeLogiciel })
             .OnDelete(DeleteBehavior.NoAction);
@@ -74,6 +74,8 @@ namespace JobOverview.Data
             entity.Property(entity => entity.NumeroVersion).HasColumnType("real");
             entity.Property(entity => entity.DatePublication).HasColumnType("DateTime");
             entity.Property(entity => entity.CodeLogiciel).HasMaxLength(20);
+
+            entity.HasOne<Version>().WithMany(v => v.Releases).HasForeignKey(d => new { d.NumeroVersion, d.CodeLogiciel });
 
          });
 
